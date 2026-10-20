@@ -742,6 +742,223 @@ body.theme-light .key-point-box {
   font-size: 14px;
 }
 
+
+/* ===================================================
+   MOBILE & TABLET ADAPTATION
+   =================================================== */
+
+@media screen and (max-width: 960px) {
+  body {
+    overflow: auto;
+  }
+  #app {
+    height: 100dvh;
+    min-height: 100vh;
+  }
+  .slide {
+    display: none;
+    position: absolute;
+    inset: 0;
+    padding-top: 56px;
+    padding-bottom: 66px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+  }
+  .slide.active {
+    display: block;
+  }
+  .slide-grid {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 24px 30px;
+    gap: 22px;
+    height: auto;
+    min-height: 100%;
+    align-items: stretch;
+  }
+  .slide-text-col {
+    height: auto;
+    padding-right: 0;
+    overflow-y: visible;
+  }
+  .slide-heading {
+    font-size: clamp(22px, 5vw, 30px);
+    margin-bottom: 16px;
+  }
+  .slide-body {
+    font-size: 17px;
+    line-height: 1.62;
+  }
+  .slide-visual-col {
+    height: auto;
+    width: 100%;
+    justify-content: center;
+    margin-top: 6px;
+  }
+  .photo-card {
+    max-width: 100%;
+    height: 380px;
+    padding: 14px;
+    border-radius: 16px;
+  }
+  .photo-frame {
+    height: 270px;
+    max-height: 270px;
+  }
+  .photo-caption {
+    font-size: 13.5px;
+  }
+  .key-point-box {
+    margin-top: 14px;
+    font-size: 13px;
+  }
+  #top-header {
+    padding: 0 16px;
+    height: 50px;
+  }
+  .pill-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    letter-spacing: 1px;
+  }
+  .author-info {
+    font-size: 12px;
+  }
+  #nav {
+    padding: 0 16px;
+    height: 58px;
+  }
+  .nav-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+  .nav-cluster:last-child {
+    display: none; /* Hide keyboard shortcut hints on mobile */
+  }
+  #toc-modal {
+    padding: 24px 20px;
+  }
+  .toc-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .toc-top h2 {
+    font-size: 22px;
+  }
+  .toc-search {
+    width: 100%;
+  }
+  .toc-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #top-header {
+    height: 46px;
+    padding: 0 10px;
+  }
+  .author-info {
+    display: none; /* Keep header clean on small phones */
+  }
+  .action-btn:nth-child(3),
+  .action-btn:nth-child(4) {
+    display: none; /* Hide print & fullscreen on small screens */
+  }
+  .action-btn {
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+  .slide {
+    padding-top: 48px;
+    padding-bottom: 60px;
+  }
+  .slide-grid {
+    padding: 14px 14px 24px;
+    gap: 16px;
+  }
+  .section-indicator {
+    font-size: 10.5px;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .slide-heading {
+    font-size: 20px;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .slide-body {
+    font-size: 15.5px;
+    line-height: 1.58;
+  }
+  .slide-body p {
+    margin-bottom: 10px;
+  }
+  .photo-card {
+    height: 310px;
+    padding: 10px;
+    border-radius: 12px;
+  }
+  .photo-frame {
+    height: 210px;
+    max-height: 210px;
+    border-radius: 8px;
+  }
+  .photo-badge {
+    font-size: 9.5px;
+    padding: 3px 8px;
+  }
+  .photo-slide-num {
+    font-size: 11px;
+  }
+  .photo-caption {
+    font-size: 12.5px;
+    margin-top: 6px;
+  }
+  #nav {
+    height: 54px;
+    padding: 0 10px;
+  }
+  .nav-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .counter-wrap {
+    gap: 4px;
+  }
+  .counter-wrap span:nth-child(2) {
+    display: none; /* Hide 'Перейти:' label */
+  }
+  #counter {
+    font-size: 12.5px;
+  }
+  #jump-input {
+    width: 38px;
+    padding: 3px 4px;
+    font-size: 11px;
+  }
+  #lightbox-modal {
+    padding: 14px;
+  }
+  #lightbox-img {
+    max-width: 96vw;
+    max-height: 65vh;
+  }
+  #lightbox-caption {
+    font-size: 15px;
+    margin-top: 12px;
+  }
+  .lightbox-close {
+    top: 10px;
+    right: 12px;
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -869,10 +1086,15 @@ function goTo(n) {
 
   cur = n;
   const newSlide = document.getElementById('slide-' + cur);
-  if (newSlide) newSlide.classList.add('active');
+  if (newSlide) {
+    newSlide.classList.add('active');
+    newSlide.scrollTop = 0;
+  }
 
   updateUi();
+  return;
 }
+
 
 function next() {
   if (cur < slides.length - 1) goTo(cur + 1);
@@ -944,14 +1166,21 @@ document.addEventListener('keydown', (e) => {
 
 // Touch swipe support for mobile/tablets
 let touchStartX = 0;
+let touchStartY = 0;
 document.addEventListener('touchstart', (e) => {
   touchStartX = e.changedTouches[0].screenX;
-}, false);
+  touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
 document.addEventListener('touchend', (e) => {
-  const touchEndX = e.changedTouches[0].screenX;
-  if (touchStartX - touchEndX > 50) next();
-  if (touchEndX - touchStartX > 50) prev();
-}, false);
+  const dx = e.changedTouches[0].screenX - touchStartX;
+  const dy = e.changedTouches[0].screenY - touchStartY;
+  // Trigger slide transition only on intentional horizontal swipe, not vertical scroll
+  if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+    if (dx < 0) next();
+    else prev();
+  }
+}, { passive: true });
 
 // Initialize
 renderAllSlides();
